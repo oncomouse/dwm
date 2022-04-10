@@ -1,0 +1,4 @@
+dwm
+*.o
+target.h
+config.h
