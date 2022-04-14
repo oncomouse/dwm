@@ -1014,7 +1014,7 @@ focus(Client *c)
 		XSetWindowBorder(dpy, c->win, scheme[SchemeSel][ColBorder].pixel);
 		setfocus(c);
 		// FIX
-		/* XRaiseWindow(dpy, c->win); */
+		XRaiseWindow(dpy, c->win);
 		if (focusedontop && c->mon->lt[c->mon->sellt]->arrange) {
 			/* Move all visible tiled clients that are not marked as on top below the bar window */
 			wc.stack_mode = Below;
