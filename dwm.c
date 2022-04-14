@@ -91,7 +91,7 @@
 enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor */
 enum { SchemeNorm, SchemeSel, SchemeStatus, SchemeTagsSel, SchemeTagsNorm, SchemeInfoSel, SchemeInfoNorm }; /* color schemes */
 enum { NetSupported, NetWMName, NetWMState, NetWMStateAbove, NetWMCheck,
-	   NetSystemTray, NetSystemTrayOP, NetSystemTrayOrientation, NetSystemTrayOrientationHorz,
+       NetSystemTray, NetSystemTrayOP, NetSystemTrayOrientation, NetSystemTrayOrientationHorz,
        NetWMFullscreen, NetActiveWindow, NetWMWindowType,
        NetClientList, NetLast }; /* EWMH atoms */
 enum { Manager, Xembed, XembedInfo, XLast }; /* Xembed atoms */
@@ -533,7 +533,7 @@ buttonpress(XEvent *e)
 			arg.ui = 1 << i;
 		} else if (ev->x < x + blw)
 			click = ClkLtSymbol;
-		else if (ev->x > selmon->ww - (int)TEXTW(stext) - getsystraywidth()) {
+		else if (ev->x > selmon->ww - statusw - getsystraywidth()) {
 			x = selmon->ww - statusw;
 			click = ClkStatusText;
 			statussig = 0;
@@ -905,14 +905,14 @@ drawbar(Monitor *m)
 				ch = *s;
 				*s = '\0';
 				tw = TEXTW(text) - lrpad;
-				drw_text(drw, m->ww - stw - statusw + x, 0, tw, bh, 0, text, 0);
+				drw_text(drw, m->ww - statusw - stw + x, 0, tw, bh, 0, text, 0);
 				x += tw;
 				*s = ch;
 				text = s + 1;
 			}
 		}
 		tw = TEXTW(text) - lrpad + 2;
-		drw_text(drw, m->ww - stw - statusw + x, 0, tw, bh, 0, text, 0);
+		drw_text(drw, m->ww - statusw - stw + x, 0, tw, bh, 0, text, 0);
 		tw = statusw;
 	}
 
@@ -1013,7 +1013,8 @@ focus(Client *c)
 		grabbuttons(c, 1);
 		XSetWindowBorder(dpy, c->win, scheme[SchemeSel][ColBorder].pixel);
 		setfocus(c);
-		XRaiseWindow(dpy, c->win);
+		// FIX
+		/* XRaiseWindow(dpy, c->win); */
 		if (focusedontop && c->mon->lt[c->mon->sellt]->arrange) {
 			/* Move all visible tiled clients that are not marked as on top below the bar window */
 			wc.stack_mode = Below;
@@ -2222,10 +2223,10 @@ setup(void)
 	netatom[NetWMFullscreen] = XInternAtom(dpy, "_NET_WM_STATE_FULLSCREEN", False);
 	netatom[NetWMWindowType] = XInternAtom(dpy, "_NET_WM_WINDOW_TYPE", False);
 	netatom[NetClientList] = XInternAtom(dpy, "_NET_CLIENT_LIST", False);
+	dwmatom[DWMComptonShadow] = XInternAtom(dpy, "_COMPTON_SHADOW", False);
 	xatom[Manager] = XInternAtom(dpy, "MANAGER", False);
 	xatom[Xembed] = XInternAtom(dpy, "_XEMBED", False);
 	xatom[XembedInfo] = XInternAtom(dpy, "_XEMBED_INFO", False);
-	dwmatom[DWMComptonShadow] = XInternAtom(dpy, "_COMPTON_SHADOW", False);
     /* init cursors */
 	cursor[CurNormal] = drw_cur_create(drw, XC_left_ptr);
 	cursor[CurResize] = drw_cur_create(drw, XC_sizing);
@@ -2825,7 +2826,6 @@ updatesystray(void)
 	Client *i;
 	Monitor *m = systraytomon(NULL);
 	unsigned int x = m->mx + m->mw;
-	/* unsigned int sw = TEXTW(stext) - lrpad + systrayspacing; */
 	unsigned int sw = statusw - lrpad + systrayspacing;
 	unsigned int w = 1;
 
@@ -2863,7 +2863,8 @@ updatesystray(void)
 		wa.background_pixel  = scheme[SchemeNorm][ColBg].pixel;
 		XChangeWindowAttributes(dpy, i->win, CWBackPixel, &wa);
 		XMapRaised(dpy, i->win);
-		setcomptonshadow(i->win, 0);
+		// FIX
+		/* setcomptonshadow(i->win, 0); */
 		w += systrayspacing;
 		i->x = w;
 		XMoveResizeWindow(dpy, i->win, i->x, 0, i->w, i->h);
