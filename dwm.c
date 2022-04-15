@@ -659,6 +659,7 @@ clientmessage(XEvent *e)
 			c->isfloating = True;
 			/* reuse tags field as mapped status */
 			c->tags = 1;
+			setcomptonshadow(c->win, 0);
 			updatesizehints(c);
 			updatesystrayicongeom(c, wa.width, wa.height);
 			XAddToSaveSet(dpy, c->win);
@@ -1013,7 +1014,6 @@ focus(Client *c)
 		grabbuttons(c, 1);
 		XSetWindowBorder(dpy, c->win, scheme[SchemeSel][ColBorder].pixel);
 		setfocus(c);
-		// FIX
 		XRaiseWindow(dpy, c->win);
 		if (focusedontop && c->mon->lt[c->mon->sellt]->arrange) {
 			/* Move all visible tiled clients that are not marked as on top below the bar window */
@@ -2863,8 +2863,6 @@ updatesystray(void)
 		wa.background_pixel  = scheme[SchemeNorm][ColBg].pixel;
 		XChangeWindowAttributes(dpy, i->win, CWBackPixel, &wa);
 		XMapRaised(dpy, i->win);
-		// FIX
-		/* setcomptonshadow(i->win, 0); */
 		w += systrayspacing;
 		i->x = w;
 		XMoveResizeWindow(dpy, i->win, i->x, 0, i->w, i->h);
