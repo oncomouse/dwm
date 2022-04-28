@@ -19,7 +19,7 @@ dwm is an extremely fast, small, and dynamic window manager for X.
 * [systray](https://dwm.suckless.org/patches/systray/dwm-systray-6.3.diff)
 * [compton floating](https://raw.githubusercontent.com/oncomouse/patches/master/dwm-compton_floating-20220320-bece862.diff)
 * [picom border fixing](https://raw.githubusercontent.com/oncomouse/patches/master/dwm-picom_border_fix-20220329-bece862.diff)
-* [raiseonfocus](https://raw.githubusercontent.com/oncomouse/patches/master/dwm-raiseonfocus-20220409-bece862.diff)
+* [raiseonenter](https://raw.githubusercontent.com/oncomouse/patches/master/dwm-raiseonenter-20220409-bece862.diff)
 * [maximize](https://raw.githubusercontent.com/oncomouse/patches/master/dwm-maximize-20220320-bece862.diff)
 
 ## Requirements
