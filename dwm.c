@@ -1349,6 +1349,7 @@ loadxrdb()
   }
 
   XCloseDisplay(display);
+  updatesystray();
 }
 
 void
